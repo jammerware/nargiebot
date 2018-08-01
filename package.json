@@ -1,0 +1,24 @@
+{
+  "name": "nargiebot",
+  "version": "1.0.0",
+  "description": "A Node framework for building powerful chatbots with ease.",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "tsc -p test/tsconfig.json && node out/test/test/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jammerware/nargiebot.git"
+  },
+  "keywords": [
+    "chat",
+    "bot",
+    "slack"
+  ],
+  "author": "Jammerware",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jammerware/nargiebot/issues"
+  },
+  "homepage": "https://github.com/jammerware/nargiebot#readme"
+}
