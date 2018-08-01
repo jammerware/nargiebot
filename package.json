@@ -4,7 +4,7 @@
   "description": "A Node framework for building powerful chatbots with ease.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "tsc -p test/tsconfig.json && node out/test/test/index.js"
+    "test": "tsc -p test/tsconfig.json && node -r dotenv/config out/test/test/index.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +20,12 @@
   "bugs": {
     "url": "https://github.com/jammerware/nargiebot/issues"
   },
-  "homepage": "https://github.com/jammerware/nargiebot#readme"
+  "homepage": "https://github.com/jammerware/nargiebot#readme",
+  "dependencies": {
+    "@slack/client": "^4.3.1",
+    "emittery": "^0.4.1"
+  },
+  "devDependencies": {
+    "dotenv": "^6.0.0"
+  }
 }
