@@ -40,6 +40,7 @@ export class Nargiebot {
         const responseContext: ResponseContext = {
             chatProvider: provider,
             hasResponded: false,
+            isBotMentioned: await provider.isBotMentioned(message),
             message,
         };
 
@@ -55,7 +56,7 @@ export class Nargiebot {
                 }
             }
         } catch (err) {
-            console.log("ERROR", err);
+            console.log("ERROR nargiebot.onMessage", err);
         }
     }
 }

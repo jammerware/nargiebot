@@ -9,5 +9,6 @@ export interface IChatProvider {
     onSignedIn: Emittery.Typed<{ eventInfo: string }, 'eventInfo'>;
 
     connect(): Promise<void>;
+    isBotMentioned(message: IncomingChatMessage): Promise<boolean>;
     say(message: OutgoingChatMessage): Promise<void>;
 }

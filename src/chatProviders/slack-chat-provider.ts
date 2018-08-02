@@ -10,6 +10,7 @@ export class SlackChatProvider implements IChatProvider {
     public onSignedIn = new Emittery.Typed<{ eventInfo: string }, 'eventInfo'>();
 
     private _rtmClient: RTMClient;
+    private _webClient: WebClient;
 
     public constructor(private _botAccessToken: string) { }
 
@@ -18,8 +19,10 @@ export class SlackChatProvider implements IChatProvider {
             this._rtmClient.disconnect();
         }
         delete this._rtmClient;
+        delete this._webClient;
 
         const rtmClient = new RTMClient(this._botAccessToken);
+        this._webClient = new WebClient(this._botAccessToken);
 
         rtmClient.on('hello', message => {
             this.onSignedIn.emit('eventInfo', message);
@@ -47,6 +50,17 @@ export class SlackChatProvider implements IChatProvider {
         this._rtmClient.start();
 
         return Promise.resolve();
+    }
+
+    public async isBotMentioned(message: IncomingChatMessage): Promise<boolean> {
+        const authResult = await this._webClient.auth.test();
+
+        if (!authResult.ok) {
+            throw new Error("Bot hasn't been authed when checking for bot mention.");
+        }
+
+        const botNameExpression = `<@${(authResult as any).user_id}>`;
+        return message.text.indexOf(botNameExpression) >= 0;
     }
 
     public async say(message: OutgoingChatMessage) {

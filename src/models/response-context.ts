@@ -3,6 +3,7 @@ import { IChatProvider } from "../chatProviders/chat-provider";
 
 export class ResponseContext {
     public chatProvider: IChatProvider;
-    public hasResponded: boolean;
+    public hasResponded = false;
+    public isBotMentioned = false;
     public message: IncomingChatMessage;
 }

@@ -3,7 +3,7 @@ import { ResponseContext } from '../../src';
 
 export class DumbResponder implements IResponder {
     public canRespond(context: ResponseContext): Promise<boolean> {
-        if (context.message.text.toLocaleLowerCase() === "hi" && !context.hasResponded) {
+        if (context.isBotMentioned && !context.hasResponded) {
             return Promise.resolve(true);
         }
 
