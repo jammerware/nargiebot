@@ -7,6 +7,7 @@
     "rules": {
         "arrow-parens": false,
         "quotemark": false,
+        "max-line-length": false,
         "ordered-imports": false,
         "variable-name": false
     },
