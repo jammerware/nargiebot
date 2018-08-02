@@ -1,7 +1,7 @@
-import { IncomingChatMessage } from "../models/incoming-chat-message";
 import { OutgoingChatMessage } from "../models/outgoing-chat-message";
+import { ResponseContext } from '../models/response-context';
 
 export interface IResponder {
-    canRespond(message: IncomingChatMessage): Promise<boolean>;
-    getResponse(message: IncomingChatMessage): Promise<OutgoingChatMessage>;
+    canRespond(context: ResponseContext): Promise<boolean>;
+    getResponse(message: ResponseContext): Promise<OutgoingChatMessage>;
 }

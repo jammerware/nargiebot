@@ -1,6 +1,7 @@
 import { IChatProvider } from "./chatProviders/chat-provider";
 import { IncomingChatMessage } from "./models/incoming-chat-message";
 import { IResponder } from "./responders/responder";
+import { ResponseContext } from "./models/response-context";
 
 export class Nargiebot {
     public static create() {
@@ -36,11 +37,25 @@ export class Nargiebot {
     }
 
     private async onMessage(message: IncomingChatMessage, provider: IChatProvider) {
-        for (const responder of this._responders) {
-            if (responder.canRespond(message)) {
-                const response = await responder.getResponse(message);
-                await provider.say(response);
+        const responseContext: ResponseContext = {
+            chatProvider: provider,
+            hasResponded: false,
+            message,
+        };
+
+        try {
+            for (const responder of this._responders) {
+                if (await responder.canRespond(responseContext)) {
+                    responseContext.hasResponded = true;
+                    const response = await responder.getResponse(responseContext);
+
+                    if (response) {
+                        await provider.say(response);
+                    }
+                }
             }
+        } catch (err) {
+            console.log("ERROR", err);
         }
     }
 }

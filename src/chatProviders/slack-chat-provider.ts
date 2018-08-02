@@ -7,7 +7,7 @@ import { OutgoingChatMessage } from '../models/outgoing-chat-message';
 export class SlackChatProvider implements IChatProvider {
     public name = "Slack";
     public onMessage = new Emittery.Typed<{ message: IncomingChatMessage }, 'message'>();
-    public onSignedIn = new Emittery.Typed<{ eventInfo: string }, 'signedIn'>();
+    public onSignedIn = new Emittery.Typed<{ eventInfo: string }, 'eventInfo'>();
 
     private _rtmClient: RTMClient;
 
@@ -31,6 +31,8 @@ export class SlackChatProvider implements IChatProvider {
                 (!message.subtype && message.user === rtmClient.activeUserId)) {
                 return;
             }
+
+            console.log('raw message', message);
 
             // emit the event
             this.onMessage.emit('message', {

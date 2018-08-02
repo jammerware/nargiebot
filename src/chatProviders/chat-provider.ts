@@ -6,7 +6,7 @@ export interface IChatProvider {
     name: string;
 
     onMessage: Emittery.Typed<{ message: IncomingChatMessage }, 'message'>;
-    onSignedIn: Emittery.Typed<{ eventInfo: string }, 'signedIn'>;
+    onSignedIn: Emittery.Typed<{ eventInfo: string }, 'eventInfo'>;
 
     connect(): Promise<void>;
     say(message: OutgoingChatMessage): Promise<void>;
