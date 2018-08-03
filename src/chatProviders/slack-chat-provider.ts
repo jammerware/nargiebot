@@ -3,6 +3,7 @@ import Emittery from 'emittery';
 import { IChatProvider } from "./chat-provider";
 import { IncomingChatMessage } from '../models/incoming-chat-message';
 import { OutgoingChatMessage } from '../models/outgoing-chat-message';
+import { MessageAttachment } from '../models/message-attachment';
 
 export class SlackChatProvider implements IChatProvider {
     public name = "Slack";
@@ -68,12 +69,46 @@ export class SlackChatProvider implements IChatProvider {
             Promise.reject("The chat provider isn't connected.");
         }
 
+        const messageBody = {
+            attachments: message.attachments && message.attachments.length ? message.attachments.map(a => this.buildSlackAttachment(a)) : [],
+            channel: message.channelId,
+            text: message.text,
+        };
+
         const result = await this
             ._rtmClient!
-            .sendMessage(message.text, message.channelId);
+            .addOutgoingEvent(true, 'message', messageBody);
 
         if (result.error) {
             throw new Error(`Error from Slack: ${result.error}`);
         }
+    }
+
+    private buildSlackAttachment(attachment: MessageAttachment): {} {
+        const slackAttachment: any = {
+            attachments: [],
+            color: attachment.color,
+            fallback: attachment.fallbackText,
+            text: attachment.text,
+            title: attachment.title,
+            title_link: attachment.titleLink,
+        };
+
+        if (attachment.author) {
+            slackAttachment.author_name = attachment.author.name;
+            slackAttachment.author_link = attachment.author.link;
+            slackAttachment.author_icon = attachment.author.icon;
+        }
+
+        if (attachment.fields.length) {
+            for (const field of attachment.fields) {
+                slackAttachment.fields.push({
+                    title: field.title,
+                    value: field.value,
+                });
+            }
+        }
+
+        return slackAttachment;
     }
 }

@@ -9,7 +9,7 @@ import { ResponseContext } from "./models/response-context";
 
 export class Nargiebot {
     public static create(logger?: ILogger) {
-        const bot = new Nargiebot();
+        const bot = new Nargiebot(logger);
         return bot;
     }
 
