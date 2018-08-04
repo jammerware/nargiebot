@@ -24,7 +24,17 @@ export class SimpleResponder implements IResponder {
         });
     }
 
+    // this enables the syntactic-sugary bot.respondsTo(things).with(stuff)
     public with(text: string) {
         this._respondsWithText = text;
+    }
+
+    // these are just in case anyone constructs a simple responder
+    public setRespondsToText(respondsToText: string) {
+        this._respondsToText = respondsToText;
+    }
+
+    public setRespondsWithText(respondsWithText: string) {
+        this.with(respondsWithText);
     }
 }

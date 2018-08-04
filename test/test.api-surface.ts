@@ -4,10 +4,13 @@ import { ScorePlusResponder } from './testResponders/score-plus-responder';
 
 const bot = Nargiebot.create();
 bot.respondsTo("Hello").with("Greetings, friend!");
-bot.addResponders(
-    new ScorePlusResponder(),
-    new DumbResponder(),
-);
+bot.addRespondersByType(ScorePlusResponder, DumbResponder);
+
+// OR
+// bot.addResponders(
+//     new ScorePlusResponder(),
+//     new DumbResponder(),
+// );
 
 bot.connect(new SlackChatProvider(process.env.SLACK_BOT_TOKEN || '')).then(() => {
     console.log("Connected to Slack with bot", bot);

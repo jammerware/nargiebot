@@ -23,6 +23,16 @@ export class Nargiebot {
         }
     }
 
+    public addResponder<T extends IResponder>(type: (new () => T)) {
+        this._responders.push(new type());
+    }
+
+    public addRespondersByType<T extends IResponder>(...responderTypes: Array<(new () => T)>) {
+        for (const responderType of responderTypes) {
+            this._responders.push(new responderType());
+        }
+    }
+
     public addResponders(...responders: IResponder[]) {
         for (const responder of responders) {
             this._responders.push(responder);
