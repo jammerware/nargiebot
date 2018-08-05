@@ -5,10 +5,11 @@ import {
 } from '../src/index';
 import { DumbResponder } from './testResponders/dumb-responder';
 import { ScorePlusResponder } from './testResponders/score-plus-responder';
+import { VogGuideResponder } from './testResponders/vog-guide-responder';
 
 const bot = Nargiebot.create();
 bot.respondsTo("Hello").with("Greetings, friend!");
-bot.addRespondersByType(ScorePlusResponder, DumbResponder);
+bot.addRespondersByType(ScorePlusResponder, VogGuideResponder, DumbResponder);
 
 bot.connect(new DiscordChatProvider(process.env.DISCORD_BOT_TOKEN || '')).then(() => {
     console.log('connected to Discord');

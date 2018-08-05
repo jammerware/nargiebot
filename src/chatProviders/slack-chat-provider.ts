@@ -60,7 +60,7 @@ export class SlackChatProvider implements IChatProvider {
         }
 
         const botNameExpression = `<@${(authResult as any).user_id}>`;
-        return message.text.indexOf(botNameExpression) >= 0;
+        return !!message.text && message.text.indexOf(botNameExpression) >= 0;
     }
 
     public async say(message: OutgoingChatMessage) {
@@ -68,15 +68,16 @@ export class SlackChatProvider implements IChatProvider {
             Promise.reject("The chat provider isn't connected.");
         }
 
-        const messageBody = {
-            attachments: message.attachments && message.attachments.length ? message.attachments.map(a => this.buildSlackAttachment(a)) : [],
+        const messageBody: any = {
             channel: message.channelId,
             text: message.text,
         };
 
-        const result = await this
-            ._rtmClient!
-            .addOutgoingEvent(true, 'message', messageBody);
+        if (message.attachments && message.attachments.length) {
+            messageBody.attachments = message.attachments.map(a => this.buildSlackAttachment(a));
+        }
+
+        const result = await this._webClient.chat.postMessage(messageBody);
 
         if (result.error) {
             throw new Error(`Error from Slack: ${result.error}`);
@@ -85,9 +86,9 @@ export class SlackChatProvider implements IChatProvider {
 
     private buildSlackAttachment(attachment: MessageAttachment): {} {
         const slackAttachment: any = {
-            attachments: [],
             color: attachment.color,
             fallback: attachment.fallbackText,
+            fields: [],
             text: attachment.text,
             title: attachment.title,
             title_link: attachment.titleLink,

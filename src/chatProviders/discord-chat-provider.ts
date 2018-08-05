@@ -48,6 +48,38 @@ export class DiscordChatProvider implements IChatProvider {
     public say(message: OutgoingChatMessage): Promise<void> {
         const channel: Discord.TextChannel = this._discordClient.channels.get(message.channelId) as Discord.TextChannel;
         channel.send(message.text);
+
+        if (message.attachments && message.attachments.length) {
+            for (const attachment of message.attachments) {
+                const embed = new Discord.RichEmbed();
+
+                if (attachment.author) {
+                    embed.author = {
+                        icon_url: attachment.author.icon,
+                        name: attachment.author.name,
+                        url: attachment.author.link,
+                    };
+                }
+
+                if (attachment.fields && attachment.fields.length) {
+                    for (const field of attachment.fields) {
+                        embed.addField(field.title, field.value);
+                    }
+                }
+
+                if (attachment.image) {
+                    embed.image = { url: attachment.image };
+                }
+
+                embed.color = 0xff9900;
+                embed.description = attachment.text;
+                embed.title = attachment.title;
+                embed.url = attachment.titleLink;
+
+                channel.sendEmbed(embed);
+            }
+        }
+
         return Promise.resolve();
     }
 }

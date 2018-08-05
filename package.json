@@ -4,7 +4,8 @@
   "description": "A Node framework for building powerful chatbots with ease.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "tsc -p test/tsconfig.json && node -r dotenv/config out/test/test/index.js"
+    "test:build": "tsc -p test/tsconfig.json",
+    "test": "npm run test:build && node -r dotenv/config out/test/test/index.js"
   },
   "repository": {
     "type": "git",
