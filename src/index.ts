@@ -1,6 +1,7 @@
 export * from './nargiebot';
 export * from './responders/responder';
 export * from './chatProviders/chat-provider';
+export * from './chatProviders/discord-chat-provider';
 export * from './chatProviders/slack-chat-provider';
 export * from './loggers/console-logger';
 export * from './loggers/logger';

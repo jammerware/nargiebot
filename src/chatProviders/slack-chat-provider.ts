@@ -36,12 +36,11 @@ export class SlackChatProvider implements IChatProvider {
                 return;
             }
 
-            console.log('raw message', message);
-
             // emit the event
             this.onMessage.emit('message', {
                 channelId: message.channel,
                 messageId: message.client_message_id,
+                raw: message,
                 text: message.text,
                 userId: message.user,
             });

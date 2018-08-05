@@ -52,7 +52,7 @@ export class Nargiebot {
             await provider.connect();
 
             provider.onSignedIn.on('eventInfo', eventInfo => {
-                this._logger.logInfo(`signed in: ${eventInfo}`);
+                // this._logger.logInfo(`signed in: ${eventInfo}`);
             });
 
             provider.onMessage.on('message', async (message) => {

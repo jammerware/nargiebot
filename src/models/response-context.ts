@@ -7,6 +7,7 @@ export class ResponseContext {
     public hasResponded = false;
     public isBotMentioned = false;
     public message: IncomingChatMessage;
+    public raw: any;
 
     constructor(private logger: ILogger) { }
 

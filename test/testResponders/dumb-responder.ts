@@ -11,6 +11,6 @@ export class DumbResponder implements IResponder {
     }
 
     public getResponse(context: ResponseContext): Promise<OutgoingChatMessage> {
-        return Promise.resolve({ text: "Hello, friend!", channelId: context.message.channelId });
+        return Promise.resolve({ text: "Hello, friend. None of my other responders knew quite what to do with that.", channelId: context.message.channelId });
     }
 }

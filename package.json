@@ -23,6 +23,7 @@
   "homepage": "https://github.com/jammerware/nargiebot#readme",
   "dependencies": {
     "@slack/client": "^4.3.1",
+    "discord.js": "^11.3.2",
     "emittery": "^0.4.1"
   },
   "devDependencies": {
