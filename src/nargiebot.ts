@@ -52,7 +52,7 @@ export class Nargiebot {
             await provider.connect();
 
             provider.onSignedIn.on('eventInfo', eventInfo => {
-                // this._logger.logInfo(`signed in: ${eventInfo}`);
+                this._logger.logInfo(`signed in: ${JSON.stringify(eventInfo)}`);
             });
 
             provider.onMessage.on('message', async (message) => {
@@ -68,6 +68,8 @@ export class Nargiebot {
         responseContext.chatProvider = provider;
         responseContext.isBotMentioned = await provider.isBotMentioned(message);
         responseContext.message = message;
+
+        this._logger.logInfo(`Raw message: ${JSON.stringify(message)}`);
 
         try {
             for (const responder of this._responders) {

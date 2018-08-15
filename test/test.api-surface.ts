@@ -11,11 +11,11 @@ const bot = Nargiebot.create();
 bot.respondsTo("Hello").with("Greetings, friend!");
 bot.addRespondersByType(ScorePlusResponder, VogGuideResponder, DumbResponder);
 
-bot.connect(new DiscordChatProvider(process.env.DISCORD_BOT_TOKEN || '')).then(() => {
-    console.log('connected to Discord');
-}).catch((err: Error) => {
-    console.log('error connecting discord bot', err);
-});
+// bot.connect(new DiscordChatProvider(process.env.DISCORD_BOT_TOKEN || '')).then(() => {
+//     console.log('connected to Discord');
+// }).catch((err: Error) => {
+//     console.log('error connecting discord bot', err);
+// });
 
 bot.connect(new SlackChatProvider(process.env.SLACK_BOT_TOKEN || '')).then(() => {
     console.log("Connected to Slack");

@@ -24,7 +24,7 @@ export class DiscordChatProvider implements IChatProvider {
             this._discordClient = new Discord.Client();
             this._discordClient.on('ready', () => { resolve(); });
 
-            this._discordClient.on('message', message => {
+            this._discordClient.on('message', (message: any) => {
                 if (message.author.bot) { return; }
 
                 this.onMessage.emit('message', {
