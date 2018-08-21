@@ -3,8 +3,9 @@ import { ResponseContext } from "../models/response-context";
 import { OutgoingChatMessage } from "../models/outgoing-chat-message";
 
 export class SimpleResponder implements IResponder {
-    private _respondsToText: string = "";
-    private _respondsWithText: string = "";
+    private _respondsIfNotMentioned = false;
+    private _respondsToText = "";
+    private _respondsWithText = "";
 
     constructor(respondsToText: string) {
         this._respondsToText = respondsToText.toLocaleLowerCase();
@@ -13,7 +14,7 @@ export class SimpleResponder implements IResponder {
     public canRespond(context: ResponseContext): Promise<boolean> {
         return Promise.resolve(
             !!this._respondsToText &&
-            context.isBotMentioned &&
+            (context.isBotMentioned || this._respondsIfNotMentioned) &&
             context.message.text.toLocaleLowerCase().indexOf(this._respondsToText) >= 0);
     }
 
@@ -24,12 +25,22 @@ export class SimpleResponder implements IResponder {
         });
     }
 
-    // this enables the syntactic-sugary bot.respondsTo(things).with(stuff)
-    public with(text: string) {
+    // this enables the syntactic-sugary bot.respondsTo(things).with(stuff).evenIfNotMentioned()
+    public evenIfNotMentioned(): SimpleResponder {
+        this._respondsIfNotMentioned = true;
+        return this;
+    }
+
+    public with(text: string): SimpleResponder {
         this._respondsWithText = text;
+        return this;
     }
 
     // these are just in case anyone constructs a simple responder
+    public respondsIfNotMentioned(respondsIfNotMentioned: boolean) {
+        this._respondsIfNotMentioned = respondsIfNotMentioned;
+    }
+
     public setRespondsToText(respondsToText: string) {
         this._respondsToText = respondsToText;
     }
