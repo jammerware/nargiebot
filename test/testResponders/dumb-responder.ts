@@ -1,5 +1,4 @@
-import { IResponder, IncomingChatMessage, OutgoingChatMessage } from '../../src';
-import { ResponseContext } from '../../src';
+import { IResponder, OutgoingChatMessage, ResponseContext } from '../../src';
 
 export class DumbResponder implements IResponder {
     public canRespond(context: ResponseContext): Promise<boolean> {

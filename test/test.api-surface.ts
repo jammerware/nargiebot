@@ -11,7 +11,10 @@ import { ScorePlusResponder } from './testResponders/score-plus-responder';
 import { VogGuideResponder } from './testResponders/vog-guide-responder';
 
 const bot = Nargiebot.create();
-bot.respondsTo("Heya").with("Heya, amigo!");
+bot
+    .respondsTo("Heya")
+    .with("Heya, amigo!")
+    .with("What is up?");
 bot.addRespondersByType(PatchNotesResponder, ScorePlusResponder, VogGuideResponder, DumbResponder);
 
 // bot.connect(new DiscordChatProvider(process.env.DISCORD_BOT_TOKEN || '')).then(() => {

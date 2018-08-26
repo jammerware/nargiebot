@@ -5,7 +5,7 @@ import { OutgoingChatMessage } from "../models/outgoing-chat-message";
 export class SimpleResponder implements IResponder {
     private _respondsIfNotMentioned = false;
     private _respondsToText = "";
-    private _respondsWithText = "";
+    private _respondsWithText: string[] = [];
 
     constructor(respondsToText: string) {
         this._respondsToText = respondsToText.toLocaleLowerCase();
@@ -14,14 +14,17 @@ export class SimpleResponder implements IResponder {
     public canRespond(context: ResponseContext): Promise<boolean> {
         return Promise.resolve(
             !!this._respondsToText &&
+            !!this._respondsWithText.length &&
             (context.isBotMentioned || this._respondsIfNotMentioned) &&
             context.message.text.toLocaleLowerCase().indexOf(this._respondsToText) >= 0);
     }
 
     public getResponse(context: ResponseContext): Promise<OutgoingChatMessage> {
+        const responseIndex = Math.floor(Math.random() * this._respondsWithText.length);
+
         return Promise.resolve({
             channelId: context.message.channelId,
-            text: this._respondsWithText,
+            text: this._respondsWithText[responseIndex],
         });
     }
 
@@ -32,7 +35,7 @@ export class SimpleResponder implements IResponder {
     }
 
     public with(text: string): SimpleResponder {
-        this._respondsWithText = text;
+        this._respondsWithText.push(text);
         return this;
     }
 
@@ -45,7 +48,7 @@ export class SimpleResponder implements IResponder {
         this._respondsToText = respondsToText;
     }
 
-    public setRespondsWithText(respondsWithText: string) {
+    public addRespondsWithText(respondsWithText: string) {
         this.with(respondsWithText);
     }
 }
