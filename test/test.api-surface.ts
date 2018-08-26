@@ -2,14 +2,17 @@ import {
     DiscordChatProvider,
     Nargiebot,
     SlackChatProvider,
+    OutgoingChatMessage,
+    ResponseContext,
 } from '../src/index';
 import { DumbResponder } from './testResponders/dumb-responder';
+import { PatchNotesResponder } from './testResponders/patch-notes-responder';
 import { ScorePlusResponder } from './testResponders/score-plus-responder';
 import { VogGuideResponder } from './testResponders/vog-guide-responder';
 
 const bot = Nargiebot.create();
 bot.respondsTo("Heya").with("Heya, amigo!");
-bot.addRespondersByType(ScorePlusResponder, VogGuideResponder, DumbResponder);
+bot.addRespondersByType(PatchNotesResponder, ScorePlusResponder, VogGuideResponder, DumbResponder);
 
 // bot.connect(new DiscordChatProvider(process.env.DISCORD_BOT_TOKEN || '')).then(() => {
 //     console.log('connected to Discord');
