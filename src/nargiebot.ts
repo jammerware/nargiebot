@@ -14,7 +14,7 @@ export class Nargiebot {
     }
 
     private _chatProviders: IChatProvider[] = [];
-    private _logger: ILogger = new ConsoleLogger();
+    private _logger: ILogger = new ConsoleLogger(); // just log to console if they don't provide a logger
     private _responders: IResponder[] = [];
 
     private constructor(logger?: ILogger) {
