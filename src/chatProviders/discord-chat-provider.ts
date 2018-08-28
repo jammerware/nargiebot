@@ -71,7 +71,7 @@ export class DiscordChatProvider implements IChatProvider {
                     embed.image = { url: attachment.image };
                 }
 
-                embed.color = 0xff9900;
+                embed.color = 0xff9900; // TODO: conversion from string to hex literal?
                 embed.description = attachment.text;
                 embed.title = attachment.title;
                 embed.url = attachment.titleLink;
